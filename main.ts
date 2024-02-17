@@ -1,19 +1,24 @@
-scene.setBackgroundColor(13)
-let mySprite = sprites.create(img`
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    hops_and_paws.vy = -160
+})
+let hops_and_paws: Sprite = null
+scene.setBackgroundColor(9)
+hops_and_paws = sprites.create(img`
     . . . . . . . . . . . . . . . . 
-    . . 4 4 4 . . . . 4 4 4 . . . . 
-    . 4 5 5 5 e . . e 5 5 5 4 . . . 
-    4 5 5 5 5 5 e e 5 5 5 5 5 4 . . 
-    4 5 5 4 4 5 5 5 5 4 4 5 5 4 . . 
-    e 5 4 4 5 5 5 5 5 5 4 4 5 e . . 
-    . e e 5 5 5 5 5 5 5 5 e e . . . 
-    . . e 5 f 5 5 5 5 f 5 e . . . . 
-    . . f 5 5 5 4 4 5 5 5 f . f f . 
-    . . . 4 5 5 f f 5 5 6 f f 5 f . 
-    . . . f 6 6 6 6 6 6 4 4 4 5 f . 
-    . . . f 5 5 5 5 5 5 5 f f f . . 
-    . . . f 5 4 5 f f f 5 f . . . . 
-    . . . f f f f f . . f f . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . f . . . 
+    . . . . . . . . . . . . f f f . 
+    . . . . . . . . . . . . f f 5 f 
+    f f f f f f f f f f f f f f f f 
+    . . . . f f f f f f f f f f . . 
+    . . . . f f f f f f f f f . . . 
+    . . . . f . f . . . f . f . . . 
+    . . . . f . f . . . f . f . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
-controller.moveSprite(mySprite)
+controller.moveSprite(hops_and_paws, 100, 0)
 tiles.setCurrentTilemap(tilemap`level1`)
+hops_and_paws.ay = 200
