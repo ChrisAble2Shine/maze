@@ -1,8 +1,9 @@
 {
-    "name": "2cat2curious",
+    "name": "2cat2curious - Copy",
     "description": "",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "animation": "*"
     },
     "files": [
         "main.blocks",
