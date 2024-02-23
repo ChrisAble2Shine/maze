@@ -91,11 +91,20 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.flower, function (sprite, otherS
     100,
     true
     )
-    bee.setPosition(hops_and_paws.x + 80, hops_and_paws.y + 80)
+    bee.setPosition(hops_and_paws.x + 80, hops_and_paws.y - 80)
     bee.follow(hops_and_paws)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
-    game.setGameOverEffect(true, effects.confetti)
+    game.gameOver(true)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    info.changeLifeBy(-1)
+    sprites.destroy(otherSprite)
+    if (hops_and_paws.y < otherSprite.y) {
+        info.changeScoreBy(5)
+    } else {
+        info.changeLifeBy(-1)
+    }
 })
 let bee: Sprite = null
 let flower: Sprite = null
@@ -122,6 +131,7 @@ controller.moveSprite(hops_and_paws, 100, 0)
 tiles.setCurrentTilemap(tilemap`level1`)
 hops_and_paws.ay = 350
 scene.cameraFollowSprite(hops_and_paws)
+info.setLife(9)
 for (let value of tiles.getTilesByType(assets.tile`myTile3`)) {
     coin = sprites.create(img`
         . . . . . . . . . . . . . . . . 
@@ -166,3 +176,65 @@ for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
     tiles.placeOnTile(flower, value)
     tiles.setTileAt(value, assets.tile`transparency16`)
 }
+game.onUpdate(function () {
+    hops_and_paws.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . f . . . 
+        . . . . . . . . . . . . f f f . 
+        . . . . . . . . . . . . f f 5 f 
+        f f f f f f f f f f f f f f f f 
+        . . . . f f f f f f f f f f . . 
+        . . . . f f f f f f f f f . . . 
+        . . . . f . f . . . f . f . . . 
+        . . . . f . f . . . f . f . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    if (hops_and_paws.vx < 0) {
+        hops_and_paws.image.flipX()
+    }
+    if (hops_and_paws.vy < 0) {
+        hops_and_paws.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . f . . . . . 
+            . . . f . . . . . . f f . . . . 
+            . . . f . . . . . . f 5 f . . . 
+            . . f f . . . . . . f f f f . . 
+            . . f . . . . . . f f f . . . . 
+            . . f . . . . . f f f f f f . . 
+            . . f f . . . f f f . . . . . . 
+            . . . f f f f f f f f f f f . . 
+            . . . . . . f f f . . . . . . . 
+            . . . . . f f f f . . . . . . . 
+            . . . . . f . . f . . . . . . . 
+            . . . . . f . . f . . . . . . . 
+            . . . . . f . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    } else if (false) {
+        hops_and_paws.setImage(img`
+            . . f f . . . . . . . . . . . . 
+            . f . . f . . . . . . . . . . . 
+            . f . . . . . . . . . . . . . . 
+            . f f . . . . . . . . . . . . . 
+            f f f . . . . . . . . . . . . . 
+            f f f . . . . . . . . . . . . . 
+            f f f f . . . . . . . . . . . . 
+            f . f f f . . . . . . . . . . . 
+            f . f f f f f . . . . . . . . . 
+            f . f . f f f . . f . . . . . . 
+            f . f . f f f f f f f . . . . . 
+            . . . . f . f . f f 5 f . . . . 
+            . . . . f . f . . f f f f . . . 
+            . . . . f . f f . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    } else {
+    	
+    }
+})
