@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const coin = SpriteKind.create()
     export const flower = SpriteKind.create()
 }
+let list: number[] = []
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     game.gameOver(false)
 })
@@ -118,10 +119,14 @@ function startLevel () {
     controller.moveSprite(hops_and_paws, 100, 0)
     if (current_level == 0) {
         tiles.setCurrentTilemap(tilemap`level1`)
-    } else if (false) {
+    } else if (current_level == 1) {
         tiles.setCurrentTilemap(tilemap`level5`)
+    } else if (current_level == 2) {
+        tiles.setCurrentTilemap(tilemap`level7`)
+    } else if (current_level == 3) {
+        tiles.setCurrentTilemap(tilemap`level8`)
     } else {
-        tiles.setCurrentTilemap(tilemap`level6`)
+        game.gameOver(true)
     }
     tiles.placeOnRandomTile(hops_and_paws, assets.tile`myTile5`)
     for (let value of tiles.getTilesByType(assets.tile`myTile5`)) {
@@ -130,6 +135,9 @@ function startLevel () {
     hops_and_paws.ay = 350
     scene.cameraFollowSprite(hops_and_paws)
     info.setLife(9)
+    for (let value of list) {
+    	
+    }
     for (let value of tiles.getTilesByType(assets.tile`myTile3`)) {
         coin = sprites.create(img`
             . . . . . . . . . . . . . . . . 
@@ -312,7 +320,7 @@ scene.setBackgroundImage(img`
     9666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666699999999999999999999999
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666669999999999999999999999
     `)
-current_level = 1
+current_level = 3
 startLevel()
 game.onUpdate(function () {
     hops_and_paws.setImage(img`
@@ -333,5 +341,50 @@ game.onUpdate(function () {
         `)
     if (hops_and_paws.vx < 0) {
         hops_and_paws.image.flipX()
+    }
+    if (hops_and_paws.vy < 0) {
+        hops_and_paws.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . f . . . . . . . . . f . . . 
+            . . f . . . . . . . . . f f . . 
+            . f f . . . . . . . . . f 5 f . 
+            . f . . . . . . . . . f f f f f 
+            . f . . . . . . . . f f f . . . 
+            . f . . . . . . . . f f f f f f 
+            . f f . . . . . . f f f f . . . 
+            . . f f f f f f f f f f f f f . 
+            . . . . . . f f f f . . . . . . 
+            . . . . . f f . f f . . . . . . 
+            . . . . . f . . . f . . . . . . 
+            . . . . . f . . . f . . . . . . 
+            . . . . . f . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    } else if (false) {
+        hops_and_paws.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . f . . . 
+            . . . . . . . . . . . . f f f . 
+            . . . . . . . . . . . . f f 5 f 
+            f f f f f f f f f f f f f f f f 
+            . . . . f f f f f f f f f f . . 
+            . . . . f f f f f f f f f . . . 
+            . . . . f f . . . . . f f . . . 
+            . . . . f f . . . . . f f . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    } else {
+    	
+    }
+    if (hops_and_paws.isHittingTile(CollisionDirection.Left) || hops_and_paws.isHittingTile(CollisionDirection.Right)) {
+        hops_and_paws.vy = 0
+        hops_and_paws.ay = 0
+    } else {
+    	
     }
 })
