@@ -99,22 +99,6 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
     startLevel()
 })
 function startLevel () {
-    hops_and_paws = sprites.create(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . f . . . 
-        . . . . . . . . . . . . f f f . 
-        . . . . . . . . . . . . f f 5 f 
-        f f f f f f f f f f f f f f f f 
-        . . . . f f f f f f f f f f . . 
-        . . . . f f f f f f f f f . . . 
-        . . . . f . f . . . f . f . . . 
-        . . . . f . f . . . f . f . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
     controller.moveSprite(hops_and_paws, 100, 0)
     if (current_level == 0) {
         tiles.setCurrentTilemap(tilemap`level1`)
@@ -318,7 +302,23 @@ scene.setBackgroundImage(img`
     9666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666699999999999999999999999
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666669999999999999999999999
     `)
-current_level = 3
+current_level = 0
+hops_and_paws = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . f . . . 
+    . . . . . . . . . . . . f f f . 
+    . . . . . . . . . . . . f f 5 f 
+    f f f f f f f f f f f f f f f f 
+    . . . . f f f f f f f f f f . . 
+    . . . . f f f f f f f f f . . . 
+    . . . . f . f . . . f . f . . . 
+    . . . . f . f . . . f . f . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
 startLevel()
 game.onUpdate(function () {
     hops_and_paws.setImage(img`
@@ -337,9 +337,6 @@ game.onUpdate(function () {
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         `)
-    if (hops_and_paws.vx < 0) {
-        hops_and_paws.image.flipX()
-    }
     if (hops_and_paws.vy < 0) {
         hops_and_paws.setImage(img`
             . . . . . . . . . . . . . . . . 
@@ -379,10 +376,31 @@ game.onUpdate(function () {
     } else {
     	
     }
-    if (hops_and_paws.isHittingTile(CollisionDirection.Left) || hops_and_paws.isHittingTile(CollisionDirection.Right)) {
+    if ((hops_and_paws.isHittingTile(CollisionDirection.Left) || hops_and_paws.isHittingTile(CollisionDirection.Right)) && hops_and_paws.vy >= 0) {
         hops_and_paws.vy = 0
         hops_and_paws.ay = 0
+        hops_and_paws.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . f f . . 
+            . . . . . . . . . . . f 5 f . . 
+            . . . . . . . . . . f f f f . . 
+            . . . . . . . . . . . . f f f f 
+            . . . . . . . . . . . . f f . . 
+            . . . . . . . . . . . . f f f f 
+            . . . . . . . f . . . . f f . . 
+            . . . . . . . f . . . . f f . . 
+            . . . . . . . f . . . . f f f f 
+            . . . . . . . f f . . . f f . . 
+            . . . . . . . . f f f f f f f f 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
     } else {
-    	
+        hops_and_paws.ay = 350
+    }
+    if (hops_and_paws.vx < 0) {
+        hops_and_paws.image.flipX()
     }
 })
