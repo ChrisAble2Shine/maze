@@ -2,7 +2,6 @@ namespace SpriteKind {
     export const coin = SpriteKind.create()
     export const flower = SpriteKind.create()
 }
-let list: number[] = []
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     game.gameOver(false)
 })
@@ -125,6 +124,8 @@ function startLevel () {
         tiles.setCurrentTilemap(tilemap`level7`)
     } else if (current_level == 3) {
         tiles.setCurrentTilemap(tilemap`level8`)
+    } else if (current_level == 4) {
+        tiles.setCurrentTilemap(tilemap`level10`)
     } else {
         game.gameOver(true)
     }
@@ -135,9 +136,6 @@ function startLevel () {
     hops_and_paws.ay = 350
     scene.cameraFollowSprite(hops_and_paws)
     info.setLife(9)
-    for (let value of list) {
-    	
-    }
     for (let value of tiles.getTilesByType(assets.tile`myTile3`)) {
         coin = sprites.create(img`
             . . . . . . . . . . . . . . . . 
