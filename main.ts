@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const coin = SpriteKind.create()
     export const flower = SpriteKind.create()
+    export const fireball = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
     game.gameOver(false)
@@ -98,6 +99,10 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
     current_level += 1
     startLevel()
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.fireball, function (sprite, otherSprite) {
+    info.changeLifeBy(-2)
+    sprites.destroy(otherSprite)
+})
 function startLevel () {
     controller.moveSprite(hops_and_paws, 100, 0)
     if (current_level == 0) {
@@ -164,6 +169,35 @@ function startLevel () {
         tiles.placeOnTile(flower, value)
         tiles.setTileAt(value, assets.tile`transparency16`)
     }
+    for (let value of tiles.getTilesByType(assets.tile`myTile9`)) {
+        fireball = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . 5 5 5 . 5 5 5 5 . . . . 
+            . . . 5 5 . . 5 . . . 5 5 . . . 
+            . . 5 5 . 5 5 2 4 4 4 4 5 . . . 
+            . . 5 4 4 4 4 4 4 2 . 2 4 5 5 . 
+            . . 5 2 . . . . 2 2 2 4 4 . 5 . 
+            . . . 4 2 2 2 2 8 8 2 4 4 . 5 . 
+            . . 5 4 2 2 8 8 2 2 2 2 4 4 5 . 
+            . 5 5 4 2 2 2 8 8 2 2 2 . 4 5 . 
+            . 5 4 4 2 2 2 2 2 2 2 . 4 4 5 . 
+            . 5 4 . . 2 2 2 4 4 4 4 4 5 5 . 
+            . 5 2 4 . . 2 2 4 4 5 . 5 . . . 
+            . 5 . 4 4 4 4 4 2 5 5 . . . . . 
+            . . 5 5 5 . 5 5 5 5 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.fireball)
+        tiles.placeOnTile(fireball, value)
+        tiles.setTileAt(value, assets.tile`transparency16`)
+        animation.runMovementAnimation(
+        fireball,
+        animation.animationPresets(animation.bobbing),
+        2000,
+        true
+        )
+        fireball.startEffect(effects.fire)
+    }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
@@ -174,6 +208,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         info.changeLifeBy(-1)
     }
 })
+let fireball: Sprite = null
 let flower: Sprite = null
 let coin: Sprite = null
 let bee: Sprite = null
@@ -302,7 +337,7 @@ scene.setBackgroundImage(img`
     9666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666699999999999999999999999
     6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666669999999999999999999999
     `)
-current_level = 0
+current_level = 2
 hops_and_paws = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
